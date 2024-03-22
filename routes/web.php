@@ -14,5 +14,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('dashboard');
 });
+
+Route::fallback(function(){
+    return redirect(route('/'));
+});
+
+Route::view('/login','login')->name('login');

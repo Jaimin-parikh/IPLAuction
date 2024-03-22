@@ -1,7 +1,9 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TeamController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\PlayerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +16,26 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::controller(AdminController::class)->group(function () {
+    Route::post('admin/login', 'login')->name('user.login');
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::get('admin/logout', 'logout');
+        Route::post('admin/addPlayer', 'addPlayer');
+        Route::post('admin/addTeam', 'addTeam');
+    });
+});
+
+
+Route::controller(TeamController::class)->group(function () {
+    Route::post('team/login', 'login');
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::get('team/logout', 'logout');
+    });
+});
+
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('player/info/{id}', [PlayerController::class, 'getPlayerInfo']);
+    Route::post('player/bid', [PlayerController::class, 'placeBid']);
+    Route::post('player/skip', [PlayerController::class, 'skipPlayer']);
 });
