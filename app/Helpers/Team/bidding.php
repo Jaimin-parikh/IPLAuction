@@ -24,9 +24,9 @@ class Bidding
             if ($bidding_team == 2) {
                 // If  first team is bidding for the player
                 if (
-                    Log::where('player_id', $bidding_player - 1)
+                   ( Log::where('player_id', $bidding_player - 1)
                     ->where('team_id', $max_teams)
-                    ->first() != null
+                    ->first()) == null
                 ) {
                     // check if previous player's bid is completed
                     if (
@@ -41,6 +41,7 @@ class Bidding
                     }
                 } else {
                     return response()->json([
+                        // dd('here'),
                         "message" => "Bidding is closed for now"
                     ], 401);
                 }

@@ -12,15 +12,15 @@ use Illuminate\Support\Facades\Validator;
 
 class PlayerController extends Controller
 {
-    //Add a frontend logic which will call this function's Api Acc to sir's demand (may be you'll need to use while loop. U can go like )
+    //Add a frontend logic which will call this function's Api Acc to sir's demand (may be you'll need to use while loop. )
     public function getPlayerInfo($id)
     {
-        $player = Player::find($id)->first();
+        $player = Player::where('id',$id)->get();
         return response()->json($player);
     }
 
     public function placeBid(Request $request)
-    {
+    {   
         try {
             $team_max = Team::all()->count();
             $player_max = Player::all()->count();
