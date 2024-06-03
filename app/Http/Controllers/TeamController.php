@@ -6,7 +6,6 @@ use App\Models\Team;
 use Illuminate\Http\Request;
 use App\Helpers\logoutHelper;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -30,7 +29,7 @@ class TeamController extends Controller
             if (Hash::check($request->password, $team->password)) {
                 return response()->json([
                     "message" => "login Successful",
-                    "token" => $team->createToken($request->email)->plainTextToken
+                    "token" => $team->createToken($request->email, ['team'])->plainTextToken
                 ], 200);
             } else {
                 return response()->json([
@@ -50,18 +49,4 @@ class TeamController extends Controller
         return logoutHelper::logout_helper($request);
     }
 
-    public function bid(Request $request)
-    {
-
-        $validator = Validator::make($request->all(), [
-            "Currentprice" => "required|max:1500000|min:1|integer",
-            "team_id" => "required|exists:teams,id|integer|digits:1|min:2|max:4"
-        ]);
-        if ($validator->fails())
-            return response()->json([
-                "message" => $validator->errors()
-            ], 422);
-
-        
-    }
 }

@@ -18,7 +18,7 @@ use App\Http\Controllers\PlayerController;
 
 Route::controller(AdminController::class)->group(function () {
     Route::post('admin/login', 'login')->name('user.login');
-    Route::middleware('auth:sanctum')->group(function () {
+    Route::middleware('auth:sanctum','admin')->group(function () {
         Route::get('admin/logout', 'logout');
         Route::post('admin/addPlayer', 'addPlayer');
         Route::post('admin/addTeam', 'addTeam');
@@ -34,7 +34,7 @@ Route::controller(TeamController::class)->group(function () {
 });
 
 
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware(['auth:sanctum','team'])->group(function () {
     Route::get('player/info/{id}', [PlayerController::class, 'getPlayerInfo']);
     Route::post('player/bid', [PlayerController::class, 'placeBid']);
     Route::post('player/skip', [PlayerController::class, 'skipPlayer']);

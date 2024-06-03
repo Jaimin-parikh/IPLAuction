@@ -35,7 +35,7 @@ class AdminController extends Controller
                 $user = User::where('email', $request->email)->first();
                 return response()->json([
                     "message" => "login Successful",
-                    "token" => $user->createToken($request->email)->plainTextToken
+                    "token" => $user->createToken($request->email,['admin'])->plainTextToken
                 ], 200);
             } else {
                 return response()->json([

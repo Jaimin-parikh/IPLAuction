@@ -17,7 +17,12 @@ class Team extends Model
     protected $casts = [
         'password' => 'hashed',
     ];
+
     public function player():HasMany{
         return $this->hasMany(Player::class);
+    }
+    
+    public function log():HasMany{
+        return $this->hasMany(Log::class);
     }
 }
